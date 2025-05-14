@@ -44,12 +44,15 @@ fig1 = px.bar(city_counts, x='City', y='Count',
               title='Number of People per City')
 st.plotly_chart(fig1, use_container_width=True)
 
-# 2. Box plot: Company size distribution by title (top 20 titles)
+# 2. Pie chart: Distribution of people by title (top 20 titles)
 top_titles = filtered_df[title_col].value_counts().head(20).index
 filtered_top_titles = filtered_df[filtered_df[title_col].isin(top_titles)]
-fig2 = px.box(filtered_top_titles, x=title_col, y=size_col,
-              title='Company Size Distribution by Title (Top 20 Titles)',
-              labels={title_col: 'Title', size_col: 'Employee Count'})
+title_counts = filtered_top_titles[title_col].value_counts().reset_index()
+title_counts.columns = ['Title', 'Count']
+fig2 = px.pie(title_counts, names='Title', values='Count',
+              title='Distribution of People by Title (Top 20 Titles)',
+              hole=0.3)
+fig2.update_traces(textinfo='percent+label+value')
 st.plotly_chart(fig2, use_container_width=True)
 
 # 3. Heatmap: Count of titles by city and company size (binned)
