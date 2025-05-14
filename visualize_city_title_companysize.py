@@ -55,15 +55,6 @@ fig2 = px.pie(title_counts, names='Title', values='Count',
 fig2.update_traces(textinfo='percent+label+value')
 st.plotly_chart(fig2, use_container_width=True)
 
-# 2b. Pie chart: Distribution of people by company size bin
-size_bin_counts = filtered_df['Company Size Bin'].value_counts().reset_index()
-size_bin_counts.columns = ['Company Size Bin', 'Count']
-fig2b = px.pie(size_bin_counts, names='Company Size Bin', values='Count',
-               title='Distribution of People by Company Size',
-               hole=0.3)
-fig2b.update_traces(textinfo='percent+label+value')
-st.plotly_chart(fig2b, use_container_width=True)
-
 # 3. Heatmap: Count of titles by city and company size (binned)
 filtered_df['Company Size Bin'] = pd.cut(filtered_df[size_col], bins=[0, 50, 200, 500, 1000, 5000, 100000],
                                 labels=['1-50', '51-200', '201-500', '501-1k', '1k-5k', '5k+'])
